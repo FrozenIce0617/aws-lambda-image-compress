@@ -1,0 +1,17 @@
+{
+  "name": "image-compression",
+  "version": "1.0.0",
+  "description": "Compress images and upload to new bucket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.1.0",
+    "fs": "0.0.1-security",
+    "gm": "^1.23.1",
+    "util": "^0.12.1"
+  }
+}

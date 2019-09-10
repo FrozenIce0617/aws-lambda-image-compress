@@ -22,7 +22,7 @@ exports.handler = function(event, context, callback) {
   
   const srcBucket = event.Records[0].s3.bucket.name;
 
-  if (srcBucket !== 'requiem-dashboard-media') {
+  if (srcBucket !== 'everbuckersource') {
     callback("Source bucket is not correct.");
     return;
   }
@@ -38,7 +38,7 @@ exports.handler = function(event, context, callback) {
     return;
   }
 
-  const dstBucket = 'everdays-compressed-images';
+  const dstBucket = 'everbucketresized';
   const dstKey = srcKey.substr(0, srcKey.lastIndexOf(".")) + ".png";
 
   // Sanity check: validate that source and destination are different buckets.
