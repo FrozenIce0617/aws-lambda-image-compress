@@ -53,7 +53,8 @@ jobs:
           name: Deploy functions
           command: |
             cd functions
-            ../.circleci/deploy.sh
+            cd compressImage
+            ../../.circleci/deploy.sh
 workflows:
   version: 2
   full:
