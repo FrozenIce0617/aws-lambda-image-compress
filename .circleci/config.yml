@@ -51,6 +51,7 @@ jobs:
             npm install
       - run:
           name: Create AWS credential
+          command: |
             mkdir ~/.aws
             touch ~/.aws/config
             chmod 600 ~/.aws/config
