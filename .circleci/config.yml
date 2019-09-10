@@ -6,13 +6,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install awscli, jq and npm
+          name: Install AWS CLI, jq and npm
           command: |
-            apt-get update
-            apt-get install -y jq zip python3-pip
+            sudo apt-get update
+            sudo apt-get install -y jq zip python3-pip
             pip3 install awscli --upgrade
             curl -sL https://deb.nodesource.com/setup_8.x | bash -
-            apt-get install -y nodejs
+            sudo apt-get install -y nodejs
             npm install -g npm@5
             aws configure set default.region $AWS_REGION
       - run:
