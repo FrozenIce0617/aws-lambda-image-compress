@@ -19,7 +19,7 @@ functionArn=$(aws lambda list-functions | jq -r --arg CURRENTFUNCTION "$current_
 if [ -z "$functionArn" ]
 then
     echo "Creating function: $current_build"
-    functionArn=$(aws lambda create-function --function-name "$current_build" --runtime nodejs8.10 --role arn:aws:iam::$AWS_ACCOUNT_ID:role/lambda-basic-role --handler lambdaCtx.handler --zip-file fileb://./"${current_build}.zip" | jq -r '.FunctionArn')
+    functionArn=$(aws lambda create-function --function-name "$current_build" --runtime nodejs8.10 --role arn:aws:iam::$AWS_ACCOUNT_ID:role/lambda-s3-role --handler lambdaCtx.handler --zip-file fileb://./"${current_build}.zip" | jq -r '.FunctionArn')
     if [ -z "$functionArn" ]
     then
         echo "Failed to get functionArn"
