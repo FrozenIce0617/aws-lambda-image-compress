@@ -38,11 +38,10 @@ jobs:
               exit 1
             fi
       - run:
-          name: Install jq and npm
+          name: Install jq
           command: |
             sudo apt-get update
             sudo apt-get install jq
-            sudo npm install -g npm@5
       - run:
           name: Install dependencies
           command: |
