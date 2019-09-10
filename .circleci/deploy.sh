@@ -28,6 +28,8 @@ then
 fi
 echo "Updating function: $current_build"
 aws lambda update-function-code --function-name "$current_build" --zip-file fileb://./"${current_build}.zip" --no-publish
+aws lambda update-function-configuration --function-name "$current_build" --memory-size 256
+aws lambda update-function-configuration --function-name "$current_build" --timeout 180
 echo "Publishing version"
 version=$(aws lambda publish-version --function-name "$current_build" | jq .Version | xargs)
 echo "Finished"
