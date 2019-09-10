@@ -53,8 +53,6 @@ jobs:
           name: Deploy functions
           command: |
             cd functions
-            cd compressImage
-            pwd
             chmod u+x ../../.circleci/deploy.sh
             ../../.circleci/deploy.sh
 workflows:
