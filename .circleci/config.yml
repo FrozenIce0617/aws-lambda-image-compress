@@ -38,10 +38,6 @@ jobs:
               exit 1
             fi
       - run:
-          name: Configure AWS
-          command: |
-            aws configure set default.region $AWS_REGION
-      - run:
           name: Install jq and npm
           command: |
             sudo apt-get update
