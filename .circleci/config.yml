@@ -54,7 +54,9 @@ jobs:
           command: |
             cd functions
             cd compressImage
-            sudo ../../.circleci/deploy.sh
+            pwd
+            chmod u+x ../../.circleci/deploy.sh
+            ../../.circleci/deploy.sh
 workflows:
   version: 2
   full:
