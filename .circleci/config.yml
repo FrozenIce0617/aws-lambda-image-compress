@@ -1,6 +1,8 @@
 version: 2
 jobs:
-  build_dev:
+  deploy:
+    docker:
+      - image: circleci/node:8.10
     steps:
       - checkout
       - run:
@@ -36,7 +38,7 @@ workflows:
   version: 2
   full:
     jobs:
-      - build_dev:
+      - deploy:
           filters:
             branches:
               only: master
