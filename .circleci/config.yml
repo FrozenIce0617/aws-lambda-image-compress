@@ -21,10 +21,6 @@ jobs:
             cd functions
             cd compressImage
             npm install
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
-          path:
-            - node_modules
       - run:
           name: Deploy functions
           command: |
