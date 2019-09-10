@@ -53,8 +53,8 @@ jobs:
           name: Deploy functions
           command: |
             cd functions
-            chmod u+x ../../.circleci/deploy.sh
-            ../../.circleci/deploy.sh
+            chmod u+x ../.circleci/deploy.sh
+            ../.circleci/deploy.sh
 workflows:
   version: 2
   full:
