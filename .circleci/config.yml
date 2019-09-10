@@ -6,10 +6,6 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Setup Environment Variables
-        command: |
-          echo 'export GIT_SHA="$(git rev-parse --short HEAD)"' >> $BASH_ENV
-      - run:
           name: Install awscli, jq and npm
           command: |
             apt-get update
@@ -26,9 +22,9 @@ jobs:
             cd compressImage
             npm install
       - save_cache:
-        key: v1-dependencies-{{ checksum "package.json" }}
-        path:
-          - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+          path:
+            - node_modules
       - run:
           name: Deploy functions
           command: |
