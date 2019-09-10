@@ -41,12 +41,9 @@ jobs:
           name: Install jq and npm
           command: |
             sudo apt-get update
-            sudo apt-get install -y jq zip python3-pip
-            pip3 install awscli --upgrade
-            curl -sL https://deb.nodesource.com/setup_8.x | bash -
+            sudo apt-get install jq
             sudo apt-get install -y nodejs
-            npm install -g npm
-            aws configure set default.region $AWS_REGION
+            npm install -g npm@5
       - run:
           name: Install dependencies
           command: |
