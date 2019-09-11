@@ -68,7 +68,7 @@ exports.handler = function(event, context, callback) {
 
   const srcBucket = event.Records[0].s3.bucket.name;
 
-  if (srcBucket !== "everbuckersrc") {
+  if (srcBucket !== "everbucketsrc") {
     callback("Source bucket is not correct.");
     return;
   }
