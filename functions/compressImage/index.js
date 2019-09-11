@@ -30,7 +30,8 @@ function connectToDatabase(uri) {
     .then(db => {
       cachedDb = db;
       return cachedDb;
-    });
+    })
+    .catch(err => console.log('MongoDB error: ', err));
 }
 
 function queryDatabase (db) {
