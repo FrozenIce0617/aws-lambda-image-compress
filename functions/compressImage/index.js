@@ -1,8 +1,16 @@
+"use strict";
 // dependencies
 const async = require("async");
 const AWS = require("aws-sdk");
 const gm = require("gm").subClass({ imageMagick: true }); // Enable ImageMagick integration.
 const util = require("util");
+const MongoClient = require("mongodb").MongoClient;
+const MONGODB_URI =
+  "mongodb+srv://rq-user-dev:ReVoLuTiOn442@rq-api-dev-tlpkg.mongodb.net/rq-api?retryWrites=true&w=majority";
+  
+// get reference to S3 client
+const s3 = new AWS.S3();
+let cachedDb = null;
 
 // constants
 const MAX_WIDTH = 500;
@@ -10,19 +18,57 @@ const MAX_HEIGHT = 500;
 const DEFAULT_QUALITY = 90; // try to keep the quality
 const DEFAULT_SCALING_FACTOR = 0.8;
 
-// get reference to S3 client
-const s3 = new AWS.S3();
+function connectToDatabase(uri) {
+  console.log('=> connect to database');
+
+  if (cachedDb) {
+    console.log('=> using cached database instance');
+    return Promise.resolve(cachedDb);
+  }
+
+  return MongoClient.connect(uri)
+    .then(db => {
+      cachedDb = db;
+      return cachedDb;
+    });
+}
+
+function queryDatabase (db) {
+  console.log('=> query database');
+
+  return db.collection('users').find({}).toArray()
+    .then(res => { console.log('RES: ', res); })
+    .catch(err => {
+      console.log('=> an error occurred: ', err);
+      return { statusCode: 500, body: 'error' };
+    });
+}
 
 exports.handler = function(event, context, callback) {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  console.log('event: ', event);
+
+  connectToDatabase(MONGODB_URI)
+    .then(db => queryDatabase(db))
+    .then(result => {
+      console.log('=> returning result: ', result);
+      callback(null, result);
+    })
+    .catch(err => {
+      console.log('=> an error occured: ', err);
+      callback(err);
+    });
+
   // Read options from the event.
   console.log(
     "Reading options from event:\n",
     util.inspect(event, { depth: 5 })
   );
-  
+
   const srcBucket = event.Records[0].s3.bucket.name;
 
-  if (srcBucket !== 'everbuckersource') {
+  if (srcBucket !== "everbuckersource") {
     callback("Source bucket is not correct.");
     return;
   }
@@ -38,7 +84,7 @@ exports.handler = function(event, context, callback) {
     return;
   }
 
-  const dstBucket = 'everbucketresized';
+  const dstBucket = "everbucketresized";
   const dstKey = srcKey.substr(0, srcKey.lastIndexOf(".")) + ".png";
 
   // Sanity check: validate that source and destination are different buckets.
@@ -78,15 +124,15 @@ exports.handler = function(event, context, callback) {
             MAX_WIDTH / size.width,
             MAX_HEIGHT / size.height
           );
-          
-          if (scalingFactor >= 1) scalingFactor = Math.min(DEFAULT_SCALING_FACTOR, scalingFactor);
-          
+
+          if (scalingFactor >= 1)
+            scalingFactor = Math.min(DEFAULT_SCALING_FACTOR, scalingFactor);
+
           const width = scalingFactor * size.width;
           const height = scalingFactor * size.height;
 
           // Transform the image buffer in memory.
-          this
-            .resize(width, height)
+          this.resize(width, height)
             .quality(DEFAULT_QUALITY)
             .toBuffer(function(err, buffer) {
               if (err) {
