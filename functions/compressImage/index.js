@@ -26,7 +26,7 @@ function connectToDatabase(uri) {
     return Promise.resolve(cachedDb);
   }
 
-  return MongoClient.connect(uri)
+  return MongoClient.connect(uri, { useNewUrlParser: true })
     .then(db => {
       cachedDb = db;
       return cachedDb;
