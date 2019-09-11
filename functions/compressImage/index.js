@@ -84,7 +84,7 @@ exports.handler = function(event, context, callback) {
     return;
   }
 
-  const dstBucket = "everbucketresized";
+  const dstBucket = "everbucketsourceresized";
   const dstKey = srcKey.substr(0, srcKey.lastIndexOf(".")) + ".png";
 
   // Sanity check: validate that source and destination are different buckets.
