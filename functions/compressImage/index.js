@@ -19,7 +19,8 @@ const DEFAULT_QUALITY = 90; // try to keep the quality
 const DEFAULT_SCALING_FACTOR = 0.8;
 
 function connectToDatabase(uri) {
-  console.log('=> connect to database');
+  console.log(`=> connect to database - ${uri}`);
+  console.log('=> MongoClient: ', MongoClient);
 
   if (cachedDb) {
     console.log('=> using cached database instance');
